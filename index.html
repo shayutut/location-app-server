@@ -1,0 +1,45 @@
+<html>
+<header>
+    <title>web app</title>
+</header>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    $(() => {
+        var socket = io();
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        socket.on('connect', function () {
+            socket.emit('authentication', { user: getCookie("user") });
+            socket.on('authenticated', function (result) {
+                console.log('authenticated successfully');
+                console.log(result);
+            });
+        });
+    });
+</script>
+
+<body id="body">
+    <form action="/addUser" method="POST">
+        <input name="username" id="username" type="text" placeholder="username" />
+        <input name="password" id="password" type="password" placeholder="password" />
+        <input name="lng" id="lng" type="number" placeholder="longtitude" />
+        <input name="alt" id="alt" type="number" placeholder="altitude" />
+        <input type="submit" value="submit" />
+    </form>
+</body>
+
+</html>
