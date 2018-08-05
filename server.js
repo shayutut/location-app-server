@@ -6,6 +6,7 @@ const io = require('socket.io')(server);
 const guild = require('guid');
 const bodyParser = require('body-parser');
 const webpush = require('web-push');
+const PORT = process.env.PORT || 3000;
 
 require('socketio-auth')(io, {
     authenticate: (socket, data, cb) => {
@@ -198,7 +199,7 @@ app.post('/addPushSubscriber', (req, res) => {
 
 
 
-server.listen(3000, () => console.log('listening on 3000'));
+server.listen(PORT, () => console.log(`listening on ${PORT}`));
 
 // const multer = require("multer");
 // const router = express.Router();
